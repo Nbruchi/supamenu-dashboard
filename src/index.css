@@ -18,6 +18,14 @@
  .flex-vertical{
   @apply flex flex-col justify-center gap-y-10 w-full;
  }
+
+ .sidebar-btn{
+  @apply hover:bg-[#111] hover:text-white py-8 rounded-none hover:border-l-8 hover:border-l-[#333] transition-all duration-300;
+}
+
+.sidebar-btn-active{
+  @apply bg-[#111] text-white border-l-8 border-l-[#333];
+}
 }
 
 @theme inline {
@@ -133,5 +141,14 @@
  }
   body {
     @apply bg-background text-foreground leading-6;
+ }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+ }
+  body {
+    @apply bg-background text-foreground;
  }
 }

@@ -9,10 +9,11 @@ interface CustomInputProps {
     title: string;
     name: string;
     type?: string;
+    capitalize?: boolean;
     className?: string;
 }
 
-const CustomInput = ({title, name,type,className}:CustomInputProps) => {
+const CustomInput = ({title, name,type,className, capitalize}:CustomInputProps) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const form = useFormContext();
 
@@ -22,7 +23,7 @@ const CustomInput = ({title, name,type,className}:CustomInputProps) => {
             name={name}
             render={({field}) => (
                 <FormItem className="w-full">
-                    <FormLabel htmlFor={name} className="uppercase text-gray-500 leading-8 font-bold text-xl">
+                    <FormLabel htmlFor={name} className={`${capitalize && "uppercase"} text-gray-500 leading-8 font-bold text-xl`}>
                         {title}
                     </FormLabel>
                     <FormControl>

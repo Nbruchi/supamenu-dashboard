@@ -1,8 +1,7 @@
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
-import Home from "./pages/Home.tsx";
-import AuthLayout from "@/components/shared/AuthLayout.tsx";
-import SignUp from "@/pages/SignUp.tsx";
-import Login from "@/pages/Login.tsx";
+import { Home, SignUp, Login, Dashboard, Clients } from "@/pages";
+import AuthLayout from "@/components/shared/AuthLayout"
+import DashboardLayout from "@/components/shared/DashboardLayout.tsx";
 
 const App = () => {
     return (
@@ -12,6 +11,10 @@ const App = () => {
                 <Route path="/auth" element={<AuthLayout />}>
                     <Route path="register" element={<SignUp />} />
                     <Route path="login" element={<Login />} />
+                </Route>
+                <Route path="/dashboard" element={<DashboardLayout/>}>
+                    <Route index element={<Dashboard/>}/>
+                    <Route path="clients" element={<Clients/>}/>
                 </Route>
             </Routes>
         </Router>

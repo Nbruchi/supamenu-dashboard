@@ -4,13 +4,15 @@ import {z} from "zod";
 import {Form} from "@/components/ui/form.tsx";
 import CustomInput from "@/components/shared/CustomInput.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 interface AuthFormProps {
     type: "register" | "login"
 }
 
 const AuthForm = ({type}: AuthFormProps) => {
+    const navigate = useNavigate();
+
     const authFormSchema = (type:FormType) =>{
         return z.object({
             firstName: type == "register" ? z.string().min(2).max(50) : z.string().optional(),
@@ -34,11 +36,9 @@ const AuthForm = ({type}: AuthFormProps) => {
         },
     })
 
-    // 2. Define a submit handler.
     function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
         console.log(values)
+        navigate("/dashboard")
     }
 
     return (
@@ -54,23 +54,26 @@ const AuthForm = ({type}: AuthFormProps) => {
                 <div className="flex flex-col items-start gap-y-4 w-full  my-8">
                     {type === "register" && (
                         <>
-                            <CustomInput title="First name" name="firstName" type="text"/>
-                            <CustomInput title="Last name" name="lastName" type="text"/>
-                            <CustomInput title="Phone number" name="phone" type="tel"/>
+                            <CustomInput title="First name" name="firstName" type="text" capitalize/>
+                            <CustomInput title="Last name" name="lastName" type="text" capitalize/>
+                            <CustomInput title="Phone number" name="phone" type="tel" capitalize/>
                         </>
                     )}
-                    <CustomInput title="Email" name="email" type="email"/>
-                    <CustomInput title="Password" name="password" className="bg-gray-100" type="password"/>
+                    <CustomInput title="Email" name="email" type="email" capitalize/>
+                    <CustomInput title="Password" name="password" className="bg-gray-100" type="password" capitalize/>
                 </div>
-                <Button type="submit" className="text-white bg-orange-400 hover:bg-orange-500 w-full py-8 text-xl">
+                <Button type="submit" className="text-white bg-orange-400 hover:bg-orange-500 w-full py-8 text-xl cursor-pointer">
                     {type === "register" ? "Signup" : "Login"}
                 </Button>
-                <p className="text-center text-xl leading-6 text-gray-500 mt-4">
+                <Link to={type === "login" ? "/auth/register": "/auth/login"} className="justify-center text-xl leading-6 text-gray-500 mt-4 hover:text-[1.3rem] cursor-pointer transition-all duration-300 flex items-center gap-2">
                     {type === "register" ? "Already have an account?" : "Don't have an account?"}
-                    <Link to={type === "login" ? "/auth/register": "/auth/login"} className="text-blue-500">
+                    <p className="text-blue-500">
                         {type === "register" ? "Login" : "Signup"}
-                    </Link>
-                </p>
+                    </p>
+                </Link>
+                {type === "login" &&  <Link to="/auth/reset" className="justify-center text-xl leading-6 text-gray-500 mt-4 hover:text-[1.3rem] cursor-pointer transition-all duration-300 flex items-center gap-2">
+                    Forgot your password? <p className="text-blue-500">Reset</p>
+                </Link>}
             </form>
         </Form>
     )
